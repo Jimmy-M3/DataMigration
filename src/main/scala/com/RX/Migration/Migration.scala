@@ -19,15 +19,17 @@ import scala.util.Properties
 
 object Migration {
   def main(args: Array[String]): Unit = {
-
+    //TODO 1.0 Init SparkSession
     val spark:SparkSession = SparkSession.builder()
       .appName("Migration")
       .getOrCreate()
 
+    //TODO 1.1 Init Mysql&Oracle Drivers
     Class.forName("oracle.jdbc.driver.OracleDriver")
     Class.forName("com.mysql.jdbc.Driver")
     Class.forName("com.mysql.cj.jdbc.Driver")
 
+    //TODO 1.2 Loading Configurations
     val HTT = 5000000
     val BS = 1000000
     val table_config:String ="RX_DW.table_config1"
@@ -57,29 +59,31 @@ object Migration {
     val tasks = taskSchedule.collectAsList()
 
 
-    // TODO 1: For-Loop 每个数据表对应一个迁移任务（Task）
+    // TODO 2.0: For-Loop Recursive Execute Tasks
     for (i <- 0 until tasks.size()){
+      // TODO 2.1 Load necessary information for each Task
       val informations = tasks.get(i)
       val tableName:String = informations.getString(0)
       val dbName:String = informations.getString(1)
       val host_port:String = informations.getString(2)
       val tc = informations.getString(3)
       var timeCols:List[String] = null
-      // TODO 1.1: timeCols字段按‘|’切分成List[String]
+      val targetTable: String = informations.getString(6)
+      val watermark: String = informations.getString(7)
+      val user: String = informations.getString(11)
+      val password: String = informations.getString(12)
+
+      // TODO 2.1.1: timeCols String Split
       if (tc.isInstanceOf[String]){
          timeCols = tc.split("\\|").toList
       }
-
+      // TODO 2.1.2: PrimaryKeys String Split
       val primaryKeys:List[String] = informations
         .getString(4)
         .split("\\|")
         .toList
 
-      val targetTable:String = informations.getString(6)
-      val watermark:String = informations.getString(7)
-      val user:String = informations.getString(11)
-      val password:String = informations.getString(12)
-
+      // TODO 2.2: Building SQL Clause(time clause for incremental tasks;limit clause for huge tables)
       var timeClause:String = null
       var limitClause:String = ""
       var isIncremental:Boolean = false
@@ -100,6 +104,7 @@ object Migration {
       }
       println(s"[INFO] IsIncremental: $isIncremental; Write Mode: $writeMode .")
       println(s"[INFO] TIME CLAUSE: $timeClause")
+      // TODO 2.3 Identify a Huge Table or Not
       var totalRowNumbers: Double = 0.0
       val conn = DriverManager.getConnection(s"jdbc:mysql://$host_port", user, password)
       val stm: Statement = conn.createStatement()
