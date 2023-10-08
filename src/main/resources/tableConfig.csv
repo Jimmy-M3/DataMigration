@@ -1,0 +1,11 @@
+tableName,database,host_port,primaryKeys,dbVsersion,targetTable
+test_source_table,migration,localhost:3306,id,8.0,target
+test_source_table01,migration,localhost:3306,id,8.0,target1
+test_source_table02,migration,localhost:3306,id,8.0,target2
+test_source_table03,migration,localhost:3306,id,8.0,target3
+test_source_table04,migration,localhost:3306,id,8.0,target4
+test_source_table05,migration,localhost:3306,id,8.0,target5
+test_source_table06,migration,localhost:3306,id,8.0,target6
+test_source_table07,migration,localhost:3306,id,8.0,target7
+test_source_table08,migration,localhost:3306,id,8.0,target8
+test_source_table09,migration,localhost:3306,id,8.0,target9
