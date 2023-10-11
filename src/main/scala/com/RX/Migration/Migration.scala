@@ -8,10 +8,10 @@ import org.apache.spark.sql.types.{IntegerType, LongType}
 
 import java.io.FileInputStream
 import java.sql.{DriverManager, SQLSyntaxErrorException, Statement}
-import java.time.LocalDate
+import java.time.{LocalDate, LocalTime}
 import java.time.format.DateTimeFormatter
 import java.util.Properties
-import scala.collection.mutable
+import scala.collection.{breakOut, mutable}
 import scala.collection.mutable.{ArrayBuffer, Map}
 import scala.math.ceil
 import scala.util.Properties
@@ -19,7 +19,8 @@ import scala.util.Properties
 
 object Migration {
   def main(args: Array[String]): Unit = {
-    //TODO 1.0 Init SparkSession
+
+    //TODO 1 Init SparkSession
     val spark:SparkSession = SparkSession.builder()
       .appName("Migration")
       .getOrCreate()
@@ -32,20 +33,28 @@ object Migration {
     //TODO 1.2 Loading Configurations
     val HTT = 5000000
     val BS = 1000000
-    val table_config:String ="RX_DW.table_config1"
-    val oracle_conn = DriverManager.getConnection("jdbc:oracle:thin:@10.18.10.102:1521:FRJDDBBY","fl_syn","fl_syn")
-    val oracle_stm = oracle_conn.createStatement()
+    val TBC_ADDR = "jdbc:oracle:thin:@10.18.10.102:1521:FRJDDBBY"
+    val PROD_ADDR= "jdbc:oracle:thin:@10.18.10.101:1521:FRJDDB"
+    val table_config:String ="RX_DW.TABLE_CONFIG_PROD"
+    val DEADLINE = LocalTime.parse("23:45:00", DateTimeFormatter.ofPattern("HH:mm:ss"))
+    val currentDate = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val dateString = currentDate.format(formatter)
+    val tbc_conn = DriverManager.getConnection(TBC_ADDR,"fl_syn","fl_syn")
+    val tbc_stm = tbc_conn.createStatement()
+    val prod_conn = DriverManager.getConnection(PROD_ADDR, "fl_syn", "fl_syn")
+    val prod_stm = prod_conn.createStatement()
     val tableConfig:DataFrame = spark.read
       .format("jdbc")
-      .option("url", "jdbc:oracle:thin:@10.18.10.102:1521:FRJDDBBY")
+      .option("url", TBC_ADDR)
       .option("user", "fl_syn")
       .option("password", "fl_syn")
       .option("driver", "oracle.jdbc.driver.OracleDriver")
-      .option("dbtable", table_config)
+      .option("dbtable", s"(select  * from $table_config where WATERMARK <>'$dateString' or WATERMARK is null) tmp")
       .load()
     val connections:DataFrame = spark.read
       .format("jdbc")
-      .option("url", "jdbc:oracle:thin:@10.18.10.102:1521:FRJDDBBY")
+      .option("url", TBC_ADDR)
       .option("user", "fl_syn")
       .option("password", "fl_syn")
       .option("driver", "oracle.jdbc.driver.OracleDriver")
@@ -59,8 +68,15 @@ object Migration {
     val tasks = taskSchedule.collectAsList()
 
 
-    // TODO 2.0: For-Loop Recursive Execute Tasks
+
+    // TODO 2 : For-Loop Recursive Execute Tasks
     for (i <- 0 until tasks.size()){
+      // TODO deadline
+      val curTime = LocalTime.now()
+      if (curTime.compareTo(DEADLINE) == 1) {
+        println(s"${LocalTime.now()} [INFO] Time Out, Spark Graceful Shutdown !")
+        sys.exit(0)
+      }
       // TODO 2.1 Load necessary information for each Task
       val informations = tasks.get(i)
       val tableName:String = informations.getString(0)
@@ -72,7 +88,7 @@ object Migration {
       val watermark: String = informations.getString(7)
       val user: String = informations.getString(11)
       val password: String = informations.getString(12)
-
+      println(s"${LocalTime.now()} [INFO] ========== $targetTable ==========")
       // TODO 2.1.1: timeCols String Split
       if (tc.isInstanceOf[String]){
          timeCols = tc.split("\\|").toList
@@ -84,7 +100,7 @@ object Migration {
         .toList
 
       // TODO 2.2: Building SQL Clause(time clause for incremental tasks;limit clause for huge tables)
-      var timeClause:String = null
+      var timeClause:String = ""
       var limitClause:String = ""
       var isIncremental:Boolean = false
       var writeMode:String = "overwrite"
@@ -92,15 +108,21 @@ object Migration {
       if (watermark == null || timeCols == null){
         timeClause = ""
       }
-      else if(watermark != null) {
+      else if(watermark != null && watermark != dateString) {
         isIncremental = true
         writeMode = "append"
         if (timeCols.size > 1){
-          timeClause = s" where " + timeCols.mkString(s" >= '$watermark' and ") + s">= '$watermark'"
+          timeClause = s" where " + timeCols.mkString(s" >= unix_timestamp('$watermark') or ") + s">= unix_timestamp('$watermark')"
         }
         else if (timeCols.size == 1){
-          timeClause = s" where ${timeCols.head} >= '$watermark'"
+          timeClause = s" where ${timeCols.head} >= unix_timestamp('$watermark')"
         }
+      }
+      else if(watermark == dateString){
+        isIncremental = false
+        writeMode = "append"
+        timeClause = "where 1=0"
+        println(s"[INFO] $targetTable:Already updated, this task will be skipped")
       }
       println(s"[INFO] IsIncremental: $isIncremental; Write Mode: $writeMode .")
       println(s"[INFO] TIME CLAUSE: $timeClause")
@@ -113,32 +135,42 @@ object Migration {
       var schema:ArrayBuffer[String] = ArrayBuffer()                // 用于首次创建目标表
       var scm:mutable.Map[String,String] = mutable.Map()
       while (schemaResult.next()){
-        schema += s"${schemaResult.getString("Field")}  ${schemaResult.getString("Type")}"
+        schema += ("\""+s"${schemaResult.getString("Field")}"+"\""+s" ${schemaResult.getString("Type")}")
         scm+=(schemaResult.getString("Field") -> schemaResult.getString("Type"))
       }
       val ddl: String = s"create table RX_DW.$targetTable ( ${schema.mkString(",")} )"
-        .replaceAll("varchar", "varchar2")
-        .replaceAll("tinyint\\(?\\d+\\)?", "number(3,0)")
-        .replaceAll("smallint\\(?\\d+\\)?", "number(5,0)")
-        .replaceAll("mediumint\\(?\\d+\\)?", "number(7,0)")
-        .replaceAll("bigint\\(?\\d+\\)?", "number(20,0)")
-        .replaceAll("int\\(?\\d+\\)?", "number(10,0)")
-        .replaceAll("double", "number")
-        .replaceAll("float", "number")
-        .replaceAll("decimal", "number")
-        .replaceAll("datetime", "timestamp")
-        .replaceAll("unsigned", "")
-      try{ oracle_stm.execute(ddl) }
+        .replaceAll("\\svarchar\\(\\d+\\)", " varchar2(1000) ")
+        .replaceAll("tinyint\\(?\\d+\\)?|tinyint", " number(5,0) ")
+        .replaceAll("smallint\\(?\\d+\\)?|smallint", " number(7,0) ")
+        .replaceAll("mediumint\\(?\\d+\\)?|mediumint", " number(9,0) ")
+        .replaceAll("bigint\\(?\\d+\\)?|bigint", " number(24,0) ")
+        .replaceAll("\\sint\\(?\\d+\\)?\\s|\\sint\\s", " number(12,0) ")
+        .replaceAll("\\sint\\(", " number(")
+        .replaceAll("\\sint,", " number(12,0),")
+        .replaceAll("\\sdouble", "number")
+        .replaceAll("\\sfloat", "number")
+        .replaceAll("\\sdecimal", "number")
+        .replaceAll("\\sdatetime", "timestamp")
+        .replaceAll("\\stimestamp\\(\\d+\\)","timestamp")
+        .replaceAll("\\sbit\\(1\\)","number(2,0)")
+        .replaceAll("\\stext","clob")
+        .replaceAll("\\slong","varchar2(4000)")
+        .replaceAll("\\smediumtext"," clob ")
+        .replaceAll("\\sunsigned", "")
+      println(s"[INFO] DDL: $ddl")
+      try{ prod_stm.execute(ddl) }
       catch {
-        case e:SQLSyntaxErrorException => if (e.getMessage.contains("ORA-00955")) {println(s"[INFO]Table Already Exist: $ddl")} else{println(s"[ERROR] $e")}
+        case e:SQLSyntaxErrorException => if (e.getMessage.contains("ORA-00955")) {println(s"[INFO]Table Already Exist.")} else{println(s"[ERROR] $e")}
       }
 
       try{
         val resultSet = stm.executeQuery(s"SELECT COUNT(1) as cnt FROM $dbName.$tableName $timeClause")
         while (resultSet.next()) {
           totalRowNumbers = resultSet.getDouble("cnt")
+          println(s"[INFO] Query:SELECT COUNT(1) as cnt FROM $dbName.$tableName $timeClause  -->>  $totalRowNumbers")
         }
         if (totalRowNumbers > HTT) {
+          //TODO 大表分批
           val batches: Int = ceil(totalRowNumbers / BS).toInt
           for (i <- 0 until batches) {
             limitClause = s" LIMIT ${i * BS},${BS} "
@@ -146,7 +178,7 @@ object Migration {
             println(s"[INFO] (Select * from $dbName.$tableName $timeClause $limitClause) t1")
             val data = spark.read
               .format("jdbc")
-              .option("url", s"jdbc:mysql://$host_port")
+              .option("url", s"jdbc:mysql://$host_port?zeroDateTimeBehavior=convertToNull")
               .option("user", user)
               .option("password", password)
               .option("driver", "com.mysql.cj.jdbc.Driver")
@@ -158,26 +190,28 @@ object Migration {
               var primaryKeysDF: DataFrame = null
 
               if (primaryKeys.size == 1) {
-                primaryKeysDF = data.select(primaryKeys.head)
+                primaryKeysDF = data.select(primaryKeys.head).distinct().repartition(20)
               }
               else {
-                primaryKeysDF = data.select(primaryKeys.head, primaryKeys.drop(1): _*)
+                primaryKeysDF = data.select(primaryKeys.head, primaryKeys.drop(1): _*).distinct().repartition(20)
               }
               var deleteODD: String = s"DELETE FROM RX_DW.$targetTable WHERE "
               for (i <- primaryKeysDF.schema.indices) {
                 val field = primaryKeysDF.schema(i).name
                 scm.getOrElse(field, "") match {
-                  case "int" => deleteODD = deleteODD + s" $field = to_number(?) AND"
-                  case "tinyint" => deleteODD = deleteODD + s" $field = to_number(?) AND"
-                  case "mediumint" => deleteODD = deleteODD + s" $field = to_number(?) AND"
-                  case "bigint" => deleteODD = deleteODD + s" $field = to_number(?) AND"
-                  case _ => deleteODD = deleteODD + s" $field = ? AND"
+                  case "int" => deleteODD = deleteODD + " \"" + s"$field" +"\" = to_number(?) AND"
+                  case "tinyint" => deleteODD = deleteODD + " \"" + s"$field" +"\" = to_number(?) AND"
+                  case "mediumint" => deleteODD = deleteODD + " \"" + s"$field" +"\" = to_number(?) AND"
+                  case "bigint" => deleteODD = deleteODD + " \"" + s"$field" +"\" = to_number(?) AND"
+                  case _ => deleteODD = deleteODD + " \"" + s"$field" +"\" = ? AND"
                 }
               }
-              deleteODD = (deleteODD + " 1=1").replaceAll(" id ", "\\\"id\\\"")
-              primaryKeysDF.distinct().coalesce(1).foreachPartition(
+              deleteODD = deleteODD + " 1=1"
+              println(s"[INFO] DELETE: $deleteODD")
+
+              primaryKeysDF.foreachPartition(
                 (partition: Iterator[Row]) => {
-                  val oconn = DriverManager.getConnection("jdbc:oracle:thin:@10.18.10.102:1521:FRJDDBBY", "fl_syn", "fl_syn")
+                  val oconn = DriverManager.getConnection(PROD_ADDR, "fl_syn", "fl_syn")
                   val pstm = oconn.prepareStatement(deleteODD)
                   partition.foreach(
                     row => {
@@ -187,7 +221,6 @@ object Migration {
                       pstm.addBatch()
                     }
                   )
-
                   val a = pstm.executeBatch()
                 }
               )
@@ -195,26 +228,27 @@ object Migration {
 
             data.write
               .format("jdbc")
-              .mode(writeMode)
-              .option("url", "jdbc:oracle:thin:@//10.18.10.102:1521/FRJDDBBY")
+              .mode("append")
+              .option("url", PROD_ADDR)
               .option("user", "fl_syn")
               .option("password", "fl_syn")
               .option("driver", "oracle.jdbc.driver.OracleDriver")
               .option("dbtable", s"RX_DW.${targetTable}")
-              .option("truncate",true)
+//              .option("truncate",true)
               .save()
 
           }
                   }
         else {
+          //TODO 小表直接写
           println(s"[INFO] (Select * from $dbName.$tableName $timeClause $limitClause) t1")
           val data = spark.read
             .format("jdbc")
-            .option("url", s"jdbc:mysql://$host_port")
+            .option("url", s"jdbc:mysql://$host_port?zeroDateTimeBehavior=convertToNull")
             .option("user", user)
             .option("password", password)
             .option("driver", "com.mysql.cj.jdbc.Driver")
-            .option("dbtable", s"( Select * from $dbName.$tableName $timeClause ) t1")
+            .option("dbtable", s"( Select * from $dbName.$tableName $timeClause) t1") //测试10rows
             .load()
 
           //todo: 删除过时数据
@@ -222,26 +256,27 @@ object Migration {
             var primaryKeysDF:DataFrame = null
 
             if (primaryKeys.size == 1 ){
-              primaryKeysDF = data.select(primaryKeys.head)
+              primaryKeysDF = data.select(primaryKeys.head).distinct().repartition(20)
             }
             else {
-              primaryKeysDF = data.select(primaryKeys.head,primaryKeys.drop(1):_*)
+              primaryKeysDF = data.select(primaryKeys.head,primaryKeys.drop(1):_*).distinct().repartition(20)
             }
             var deleteODD: String = s"DELETE FROM RX_DW.$targetTable WHERE "
             for (i <- primaryKeysDF.schema.indices) {
               val field = primaryKeysDF.schema(i).name
               scm.getOrElse(field, "") match {
-                case "int" => deleteODD = deleteODD + s" $field = to_number(?) AND"
-                case "tinyint" => deleteODD = deleteODD + s" $field = to_number(?) AND"
-                case "mediumint" => deleteODD = deleteODD + s" $field = to_number(?) AND"
-                case "bigint" => deleteODD = deleteODD + s" $field = to_number(?) AND"
-                case _ => deleteODD = deleteODD + s" $field = ? AND"
+                case "int" => deleteODD = deleteODD + " \"" + s"$field" + "\" = to_number(?) AND"
+                case "tinyint" => deleteODD = deleteODD + " \"" + s"$field" + "\" = to_number(?) AND"
+                case "mediumint" => deleteODD = deleteODD + " \"" + s"$field" + "\" = to_number(?) AND"
+                case "bigint" => deleteODD = deleteODD + " \"" + s"$field" + "\" = to_number(?) AND"
+                case _ => deleteODD = deleteODD + " \"" + s"$field" + "\" = ? AND"
               }
             }
-            deleteODD = (deleteODD + " 1=1").replaceAll(" id ", "\\\"id\\\"")
-            primaryKeysDF.distinct().coalesce(1).foreachPartition(
+            deleteODD = deleteODD + " 1=1"
+            println(s"[INFO] DELETE: $deleteODD")
+            primaryKeysDF.foreachPartition(
               (partition:Iterator[Row]) => {
-                val oconn = DriverManager.getConnection("jdbc:oracle:thin:@10.18.10.102:1521:FRJDDBBY", "fl_syn", "fl_syn")
+                val oconn = DriverManager.getConnection(PROD_ADDR, "fl_syn", "fl_syn")
                 val pstm = oconn.prepareStatement(deleteODD)
                 partition.foreach(
                   row => {
@@ -259,7 +294,7 @@ object Migration {
           data.write
             .format("jdbc")
             .mode(writeMode)
-            .option("url", "jdbc:oracle:thin:@//10.18.10.102:1521/FRJDDBBY")
+            .option("url", PROD_ADDR)
             .option("user", "fl_syn")
             .option("password", "fl_syn")
             .option("driver", "oracle.jdbc.driver.OracleDriver")
@@ -268,12 +303,10 @@ object Migration {
             .save()
 
         }
-        val currentDate = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val dateString = currentDate.format(formatter)
-        oracle_stm.executeUpdate(s"update $table_config set watermark = '$dateString' where targetTable = '$targetTable'")
+
+        tbc_stm.executeUpdate(s"update $table_config set watermark = '$dateString' where targetTable = '$targetTable'")
       }catch {
-        case e:Exception => println(s"[ERROR] ${e.getMessage}")
+        case e:Exception => println(s"[ERROR] ${targetTable}: ${e.getMessage}")
       }
     }
 

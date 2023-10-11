@@ -1,0 +1,206 @@
+[INFO] ========== t_after_sales_order_detail_jsd ==========[INFO] IsIncremental: false; Write Mode: overwrite .[INFO] TIME CLAUSE:[INFO] DDL: create table RX_DW.t_after_sales_order_detail_jsd ( id   number(24,0) ,after_sales_order_id   number(24,0) ,after_sales_type   number(5,0) ,after_sales_reason   number(5,0) ,designation_coin1   number(5,0) ,designation_coin2   number(5,0) ,description  varchar2(1000) ,img_list clob,goods_item_id   number(24,0) ,goods_name  varchar2(1000) ,goods_price number(11,2),goods_img  varchar2(1000) ,goods_count  number(10),total_count  number(10),total_amount number(11,2),promotion number(11,2),logistics_fare number(11,2),total_price number(11,2),refund_amount number(11,2),refund_actual_amount number(11,2),welfare_amount number(11,2),welfare_cat  number(5),refund_welfare_des_amount number(11,2),refund_designation_coin1_amount number(11,2),refund_designation_coin2_amount number(11,2),refund_welfare_rec_amount number(11,2),refund_welfare_amount number(11,2),refund_wx_amount number(11,2),refund_canteen_card_amount number(11,2),refund_labour_union_amount number(11,2),refund_festival_amount number(11,2),discount_amount number(11,2),store_ticket_amount number(11,2),ticket_amountnumber(11,2) )[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长[INFO] (Select * from jsdl_db.t_after_sales_order_detail  ) t1[ERROR] t_after_sales_order_detail_jsd: ORA-00972: 标识符过长[INFO] ========== t_order_jsdl ==========[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_order_jsdl ( id   number(24,0) ,user_id   number(24,0) ,store_id   number(24,0) ,order_code  varchar2(1000) ,parent_id   number(24,0) ,is_single   number(5,0) ,designation_coin1   number(5,0) ,designation_coin2   number(5,0) ,goods_source   number(5,0) ,trade_code  varchar2(1000) ,total   number(24,0) ,total_weight   number(24,0) ,total_amount number(11,2),store_ticket_id   number(24,0) ,store_ticket_amount number(11,2),promotion_amount number(11,2),lh_id   number(24,0) ,lh_amount number(11,2),deduction_amount number(11,2),discount_amount number(11,2),welfare_amount  varchar2(1000) ,welfare_cat  number(10),total_goods_price number(11,2),total_tax_price number(11,2),total_price number(11,2),create_time timestamp,create_datestamp   number(24,0) ,payment_method   number(5,0) ,status   number(5,0) ,payment_time timestamp,payment_datestamp   number(24,0) ,address_id   number(24,0) ,name  varchar2(1000) ,phone  varchar2(1000) ,province  varchar2(1000) ,city  varchar2(1000) ,area  varchar2(1000) ,town  varchar2(1000) ,address  varchar2(1000) ,id_card_number  varchar2(1000) ,card_front_img  varchar2(1000) ,card_back_img  varchar2(1000) ,logistics_fare number(11,2),receipt_time timestamp,receipt_datestamp   number(24,0) ,receipt_remark  varchar2(1000) ,delivery  varchar2(1000) ,delivery_time timestamp,delivery_datestamp   number(24,0) ,source   number(5,0) ,shipping_method   number(5,0) ,comments_status   number(5,0) ,show_status   number(5,0) ,cancel_type   number(5,0) ,freight_id   number(24,0) ,logistics_company   number(24,0) ,logistics_name  varchar2(1000) ,logistics_number  varchar2(1000) ,kd100_back  clob ,remarks  varchar2(1000) ,delivery_type   number(5,0) ,deliverytime  varchar2(1000) ,delivery_time_id   number(24,0) ,saleroom_id   number(24,0) ,priceexplain  varchar2(1000) ,integral number(10,0),buy_message  varchar2(1000) ,order_type   number(5,0) ,delivery_remark  varchar2(1000) ,pay_tn  varchar2(1000) ,audit_status   number(5,0) ,audit_time timestamp,audit_timestamp   number(24,0) ,audit_remark  varchar2(1000) ,cancle_time timestamp,cancle_remark  varchar2(1000) ,is_complaint   number(5,0) ,promotion_type   number(5,0) ,billing   number(5,0) ,invoice_title  varchar2(1000) ,invoice_content  varchar2(1000) ,detailedlist   number(5,0) ,refund_id   number(24,0) ,refund_apply_time timestamp,refund_audit_time timestamp,refund_amount number(11,2),finish_time timestamp,finish_datestamp   number(24,0) ,jl_library_code  varchar2(1000) ,jl_retailcode  varchar2(1000) ,declare_msg  varchar2(1000) ,jl_companycode  varchar2(1000) ,jl_borrowbackid  varchar2(1000) ,declare_status   number(5,0) ,refund_push_status  number(32),card_no  varchar2(1000) ,transaction_time timestamp,refund_finish_time timestamp,has_jd_children   number(5,0) ,package_id   number(24,0) ,refund_welfare_amount number(11,2),welfare_des_amount number(11,2),designation_coin1_amount number(11,2),designation_coin2_amount number(11,2),refund_designation_coin1_amount number(11,2),refund_designation_coin2_amount number(11,2),wx_pay_amount number(11,2),welfare_rec_amount number(11,2),refund_welfare_des_amount number(11,2),refund_wx_amount number(11,2),refund_welfare_rec_amount number(11,2),canteen_card_amount number(11,2),refund_canteen_card_amount number(11,2),labour_union_amount number(11,2),refund_labour_union_amount number(11,2),festival_amount number(11,2),refund_festival_amount number(11,2),order_push_status   number(5,0) ,package_status   number(5,0)  )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from jsdl_db.t_order  ) t1
+[ERROR] t_order_jsdl: ORA-00972: 标识符过长
+
+[INFO] ========== t_user_integral_history_ksnsh ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_user_integral_history_ksnsh ( id   number(24,0) ,user_id   number(24,0) ,adjust_integral   number(24,0) ,increase   number(5,0) ,operate_type   number(5,0) ,currency_type   number(5,0) ,admin_id   number(24,0) ,description  varchar2(1000) ,trans_code  varchar2(1000) ,create_time timestamp,create_id   number(24,0) ,mod_time timestamp,mod_id   number(24,0) ,residue_intergral   number(24,0) ,residue_oil_coin   number(24,0) ,after_sales_code  varchar2(1000)  )
+[INFO]Table Already Exist: create table RX_DW.t_user_integral_history_ksnsh ( id   number(24,0) ,user_id   number(24,0) ,adjust_integral   number(24,0) ,increase   number(5,0) ,operate_type   number(5,0) ,currency_type   number(5,0) ,admin_id   number(24,0) ,description  varchar2(1000) ,trans_code  varchar2(1000) ,create_time timestamp,create_id   number(24,0) ,mod_time timestamp,mod_id   number(24,0) ,residue_intergral   number(24,0) ,residue_oil_coin   number(24,0) ,after_sales_code  varchar2(1000)  )
+[INFO] (Select * from ksnsh.t_user_integral_history  ) t1
+[ERROR] t_user_integral_history_ksnsh: Job aborted due to stage failure: Task 0 in stage 5.0 failed 4 times, most recent failure: Lost task 0.3 in stage 5.0 (TID 6) (10.18.10.98 executor 1): java.sql.SQLException: Zero date value prohibited
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:129)
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:89)
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:63)
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:73)
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:99)
+        at com.mysql.cj.jdbc.result.ResultSetImpl.getTimestamp(ResultSetImpl.java:947)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.$anonfun$makeGetter$15(JdbcUtils.scala:486)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.$anonfun$makeGetter$15$adapted(JdbcUtils.scala:485)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$$anon$1.getNext(JdbcUtils.scala:367)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$$anon$1.getNext(JdbcUtils.scala:349)
+        at org.apache.spark.util.NextIterator.hasNext(NextIterator.scala:73)
+        at org.apache.spark.InterruptibleIterator.hasNext(InterruptibleIterator.scala:37)
+        at org.apache.spark.util.CompletionIterator.hasNext(CompletionIterator.scala:31)
+        at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage1.processNext(Unknown Source)
+        at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)
+        at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:759)
+        at scala.collection.Iterator$$anon$10.hasNext(Iterator.scala:460)
+        at scala.collection.Iterator$$anon$10.hasNext(Iterator.scala:460)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.savePartition(JdbcUtils.scala:713)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.$anonfun$saveTable$1(JdbcUtils.scala:895)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.$anonfun$saveTable$1$adapted(JdbcUtils.scala:893)
+        at org.apache.spark.rdd.RDD.$anonfun$foreachPartition$2(RDD.scala:1020)
+        at org.apache.spark.rdd.RDD.$anonfun$foreachPartition$2$adapted(RDD.scala:1020)
+        at org.apache.spark.SparkContext.$anonfun$runJob$5(SparkContext.scala:2264)
+        at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)
+        at org.apache.spark.scheduler.Task.run(Task.scala:131)
+        at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:506)
+        at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1491)
+        at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:509)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.DataReadException: Zero date value prohibited
+        at com.mysql.cj.result.SqlTimestampValueFactory.localCreateFromDatetime(SqlTimestampValueFactory.java:173)
+        at com.mysql.cj.result.SqlTimestampValueFactory.localCreateFromDatetime(SqlTimestampValueFactory.java:51)
+        at com.mysql.cj.result.AbstractDateTimeValueFactory.createFromDatetime(AbstractDateTimeValueFactory.java:104)
+        at com.mysql.cj.protocol.a.MysqlTextValueDecoder.decodeDatetime(MysqlTextValueDecoder.java:90)
+        at com.mysql.cj.protocol.result.AbstractResultsetRow.decodeAndCreateReturnValue(AbstractResultsetRow.java:86)
+        at com.mysql.cj.protocol.result.AbstractResultsetRow.getValueFromBytes(AbstractResultsetRow.java:243)
+        at com.mysql.cj.protocol.a.result.ByteArrayRow.getValue(ByteArrayRow.java:91)
+        ... 27 more
+
+Driver stacktrace:
+[INFO] ========== t_points_account_new_rxdgg ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_points_account_new_rxdgg ( id   number(24,0) ,points_name  varchar2(1000) ,deduct_freight_state   number(5,0) ,pay_type   number(5,0) ,use_range   number(5,0) ,enable   number(5,0) ,create_time timestamp,mod_time timestamp,use_explain  varchar2(1000) ,del_flag   number(5,0) ,points_banner_picture  varchar2(1000) ,points_second_background_picture  varchar2(1000) ,points_second_card_picture  varchar2(1000) ,points_second_card_color  varchar2(1000)  )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from new_rxdgg_db.t_points_account  ) t1
+[ERROR] t_points_account_new_rxdgg: ORA-00972: 标识符过长
+
+[INFO] ========== t_points_account_new_rxdgg ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_points_account_new_rxdgg ( id   number(24,0) ,points_name  varchar2(1000) ,deduct_freight_state   number(5,0) ,pay_type   number(5,0) ,use_range   number(5,0) ,enable   number(5,0) ,create_time timestamp,mod_time timestamp,use_explain  varchar2(1000) ,del_flag   number(5,0) ,points_banner_picture  varchar2(1000) ,points_second_background_picture  varchar2(1000) ,points_second_card_picture  varchar2(1000) ,points_second_card_color  varchar2(1000)  )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from new_rxdgg_db.t_points_account  ) t1
+[ERROR] t_points_account_new_rxdgg: ORA-00972: 标识符过长
+
+[INFO] ========== t_user_integral_history_pafuli ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_user_integral_history_pafuli ( id   number(24,0) ,user_id   number(24,0) ,adjust_integral number(10,2),increase   number(5,0) ,operate_type   number(5,0) ,currency_type   number(5,0) ,admin_id   number(24,0) ,description  varchar2(1000) ,trans_code  varchar2(1000) ,create_time timestamp,create_id   number(24,0) ,mod_time timestamp,mod_id   number(24,0) ,residue_intergral   number(24,0) ,residue_oil_coin   number(24,0)  )
+[INFO]Table Already Exist: create table RX_DW.t_user_integral_history_pafuli ( id   number(24,0) ,user_id   number(24,0) ,adjust_integral number(10,2),increase   number(5,0) ,operate_type   number(5,0) ,currency_type   number(5,0) ,admin_id   number(24,0) ,description  varchar2(1000) ,trans_code  varchar2(1000) ,create_time timestamp,create_id   number(24,0) ,mod_time timestamp,mod_id   number(24,0) ,residue_intergral   number(24,0) ,residue_oil_coin   number(24,0)  )
+[INFO] (Select * from pafulisc.t_user_integral_history  ) t1
+[ERROR] t_user_integral_history_pafuli: Job aborted due to stage failure: Task 0 in stage 6.0 failed 4 times, most recent failure: Lost task 0.3 in stage 6.0 (TID 10) (10.18.10.98 executor 1): java.sql.SQLException: Zero date value prohibited
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:129)
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:89)
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:63)
+        at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:73)
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:99)
+        at com.mysql.cj.jdbc.result.ResultSetImpl.getTimestamp(ResultSetImpl.java:947)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.$anonfun$makeGetter$15(JdbcUtils.scala:486)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.$anonfun$makeGetter$15$adapted(JdbcUtils.scala:485)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$$anon$1.getNext(JdbcUtils.scala:367)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$$anon$1.getNext(JdbcUtils.scala:349)
+        at org.apache.spark.util.NextIterator.hasNext(NextIterator.scala:73)
+        at org.apache.spark.InterruptibleIterator.hasNext(InterruptibleIterator.scala:37)
+        at org.apache.spark.util.CompletionIterator.hasNext(CompletionIterator.scala:31)
+        at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage1.processNext(Unknown Source)
+        at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)
+        at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:759)
+        at scala.collection.Iterator$$anon$10.hasNext(Iterator.scala:460)
+        at scala.collection.Iterator$$anon$10.hasNext(Iterator.scala:460)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.savePartition(JdbcUtils.scala:713)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.$anonfun$saveTable$1(JdbcUtils.scala:895)
+        at org.apache.spark.sql.execution.datasources.jdbc.JdbcUtils$.$anonfun$saveTable$1$adapted(JdbcUtils.scala:893)
+        at org.apache.spark.rdd.RDD.$anonfun$foreachPartition$2(RDD.scala:1020)
+        at org.apache.spark.rdd.RDD.$anonfun$foreachPartition$2$adapted(RDD.scala:1020)
+        at org.apache.spark.SparkContext.$anonfun$runJob$5(SparkContext.scala:2264)
+        at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)
+        at org.apache.spark.scheduler.Task.run(Task.scala:131)
+        at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:506)
+        at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1491)
+        at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:509)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: com.mysql.cj.exceptions.DataReadException: Zero date value prohibited
+        at com.mysql.cj.result.SqlTimestampValueFactory.localCreateFromDatetime(SqlTimestampValueFactory.java:173)
+        at com.mysql.cj.result.SqlTimestampValueFactory.localCreateFromDatetime(SqlTimestampValueFactory.java:51)
+        at com.mysql.cj.result.AbstractDateTimeValueFactory.createFromDatetime(AbstractDateTimeValueFactory.java:104)
+        at com.mysql.cj.protocol.a.MysqlTextValueDecoder.decodeDatetime(MysqlTextValueDecoder.java:90)
+        at com.mysql.cj.protocol.result.AbstractResultsetRow.decodeAndCreateReturnValue(AbstractResultsetRow.java:86)
+        at com.mysql.cj.protocol.result.AbstractResultsetRow.getValueFromBytes(AbstractResultsetRow.java:243)
+        at com.mysql.cj.protocol.a.result.ByteArrayRow.getValue(ByteArrayRow.java:91)
+        ... 27 more
+
+Driver stacktrace:
+[INFO] ========== t_after_sales_order_rxqqg_pro ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_after_sales_order_rxqqg_pro ( id   number(24,0) ,user_id   number(24,0) ,name  varchar2(1000) ,phone  varchar2(1000) ,store_id   number(24,0) ,after_sales_code  varchar2(1000) ,order_id   number(24,0) ,order_code  varchar2(1000) ,parent_code  varchar2(1000) ,trade_code  varchar2(1000) ,payment_method   number(5,0) ,status   number(5,0) ,remarks  varchar2(1000) ,order_type   number(5,0) ,audit_status   number(5,0) ,audit_time timestamp,audit_remark  varchar2(1000) ,create_order_time timestamp,create_time timestamp,refund_finish_time timestamp,finish_time timestamp,supplier_as_status  varchar2(1000) ,provider_sub_order_no  varchar2(1000) ,linked_mall_seller_agree_msg  varchar2(1000) ,return_logistics_company_code  varchar2(1000) ,return_logistics_no  varchar2(1000) ,provider_reverse_no  varchar2(1000) ,provider_goods_return_address_info  varchar2(1000)  )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from rxqqg_pro.t_after_sales_order  ) t1
+[ERROR] t_after_sales_order_rxqqg_pro: ORA-00972: 标识符过长
+
+[INFO] ========== t_after_sales_order_rxqqg_pro ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_after_sales_order_rxqqg_pro ( id   number(24,0) ,user_id   number(24,0) ,name  varchar2(1000) ,phone  varchar2(1000) ,store_id   number(24,0) ,after_sales_code  varchar2(1000) ,order_id   number(24,0) ,order_code  varchar2(1000) ,parent_code  varchar2(1000) ,trade_code  varchar2(1000) ,payment_method   number(5,0) ,status   number(5,0) ,remarks  varchar2(1000) ,order_type   number(5,0) ,audit_status   number(5,0) ,audit_time timestamp,audit_remark  varchar2(1000) ,create_order_time timestamp,create_time timestamp,refund_finish_time timestamp,finish_time timestamp,supplier_as_status  varchar2(1000) ,provider_sub_order_no  varchar2(1000) ,linked_mall_seller_agree_msg  varchar2(1000) ,return_logistics_company_code  varchar2(1000) ,return_logistics_no  varchar2(1000) ,provider_reverse_no  varchar2(1000) ,provider_goods_return_address_info  varchar2(1000)  )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from rxqqg_pro.t_after_sales_order  ) t1
+[ERROR] t_after_sales_order_rxqqg_pro: ORA-00972: 标识符过长
+
+[INFO] ========== t_after_sales_order_detail_szd ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_after_sales_order_detail_szd ( id   number(24,0) ,after_sales_order_id   number(24,0) ,after_sales_type   number(5,0) ,after_sales_reason   number(5,0) ,designation_coin1   number(5,0) ,designation_coin2   number(5,0) ,description  varchar2(1000) ,img_list clob,goods_item_id   number(24,0) ,goods_name  varchar2(1000) ,goods_price number(11,2),goods_img  varchar2(1000) ,goods_count  number(10),total_count  number(10),total_amount number(11,2),promotion number(11,2),logistics_fare number(11,2),total_price number(11,2),refund_amount number(11,2),refund_actual_amount number(11,2),welfare_amount number(11,2),welfare_cat  number(5),refund_welfare_des_amount number(11,2),refund_designation_coin1_amount number(11,2),refund_designation_coin2_amount number(11,2),refund_welfare_rec_amount number(11,2),refund_welfare_amount number(11,2),refund_wx_amount number(11,2),refund_canteen_card_amount number(11,2),refund_labour_union_amount number(11,2),refund_festival_amount number(11,2),ticket_amount number(11,2),store_ticket_amount number(11,2),discount_amountnumber(11,2) )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from szdc_db.t_after_sales_order_detail  ) t1
+[ERROR] t_after_sales_order_detail_szd: ORA-00972: 标识符过长
+
+[INFO] ========== t_order_szdc ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_order_szdc ( id   number(24,0) ,user_id   number(24,0) ,store_id   number(24,0) ,order_code  varchar2(1000) ,parent_id   number(24,0) ,is_single   number(5,0) ,designation_coin1   number(5,0) ,designation_coin2   number(5,0) ,goods_source   number(5,0) ,trade_code  varchar2(1000) ,total   number(24,0) ,total_weight   number(24,0) ,total_amount number(11,2),store_ticket_id   number(24,0) ,store_ticket_amount number(11,2),promotion_amount number(11,2),lh_id   number(24,0) ,lh_amount number(11,2),deduction_amount number(11,2),discount_amount number(11,2),welfare_amount number(11,2),welfare_cat  number(10),total_goods_price number(11,2),total_tax_price number(11,2),total_price number(11,2),create_time timestamp,create_datestamp   number(24,0) ,payment_method   number(5,0) ,status   number(5,0) ,payment_time timestamp,payment_datestamp   number(24,0) ,address_id   number(24,0) ,name  varchar2(1000) ,phone  varchar2(1000) ,province  varchar2(1000) ,city  varchar2(1000) ,area  varchar2(1000) ,town  varchar2(1000) ,address  varchar2(1000) ,id_card_number  varchar2(1000) ,card_front_img  varchar2(1000) ,card_back_img  varchar2(1000) ,logistics_fare number(11,2),receipt_time timestamp,receipt_datestamp   number(24,0) ,receipt_remark  varchar2(1000) ,delivery  varchar2(1000) ,delivery_time timestamp,delivery_datestamp   number(24,0) ,source   number(5,0) ,shipping_method   number(5,0) ,comments_status   number(5,0) ,show_status   number(5,0) ,cancel_type   number(5,0) ,freight_id   number(24,0) ,logistics_company   number(24,0) ,logistics_name  varchar2(1000) ,logistics_number  varchar2(1000) ,kd100_back  clob ,remarks  varchar2(1000) ,delivery_type   number(5,0) ,deliverytime  varchar2(1000) ,delivery_time_id   number(24,0) ,saleroom_id   number(24,0) ,priceexplainvarchar2(1000) ,integral number(10,0),buy_message  varchar2(1000) ,order_type   number(5,0) ,delivery_remark  varchar2(1000) ,pay_tn  varchar2(1000) ,audit_status   number(5,0) ,audit_time timestamp,audit_timestamp   number(24,0) ,audit_remark  varchar2(1000) ,cancle_time timestamp,cancle_remark  varchar2(1000) ,is_complaint   number(5,0) ,promotion_type   number(5,0) ,billing   number(5,0) ,invoice_title  varchar2(1000) ,invoice_content  varchar2(1000) ,detailedlist   number(5,0) ,refund_id   number(24,0) ,refund_apply_time timestamp,refund_audit_time timestamp,refund_amount number(11,2),finish_time timestamp,finish_datestamp   number(24,0) ,jl_library_code  varchar2(1000) ,jl_retailcode  varchar2(1000) ,declare_msgvarchar2(1000) ,jl_companycode  varchar2(1000) ,jl_borrowbackid  varchar2(1000) ,declare_status   number(5,0) ,refund_push_status  number(32),card_no  varchar2(1000) ,transaction_time timestamp,refund_finish_time timestamp,has_jd_children   number(5,0) ,package_id   number(24,0) ,refund_welfare_amount number(11,2),welfare_des_amount number(11,2),designation_coin1_amount number(11,2),designation_coin2_amount number(11,2),refund_designation_coin1_amount number(11,2),refund_designation_coin2_amount number(11,2),wx_pay_amount number(11,2),welfare_rec_amount number(11,2),refund_welfare_des_amount number(11,2),refund_wx_amount number(11,2),refund_welfare_rec_amount number(11,2),canteen_card_amount number(11,2),refund_canteen_card_amount number(11,2),labour_union_amount number(11,2),refund_labour_union_amount number(11,2),festival_amount number(11,2),refund_festival_amount number(11,2),order_push_status  number(5,0) ,package_status   number(5,0) ,third_order_code  varchar2(1000)  )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from szdc_db.t_order  ) t1
+[ERROR] t_order_szdc: ORA-00972: 标识符过长
+
+[INFO] ========== t_order_tcdc ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_order_tcdc ( id   number(24,0) ,user_id   number(24,0) ,store_id   number(24,0) ,order_code  varchar2(1000) ,parent_id   number(24,0) ,is_single   number(5,0) ,designation_coin1   number(5,0) ,designation_coin2   number(5,0) ,goods_source   number(5,0) ,trade_code  varchar2(1000) ,total   number(24,0) ,total_weight   number(24,0) ,total_amount number(11,2),store_ticket_id   number(24,0) ,store_ticket_amount number(11,2),promotion_amount number(11,2),lh_id   number(24,0) ,lh_amount number(11,2),deduction_amount number(11,2),discount_amount number(11,2),welfare_amount number(11,2),welfare_cat  number(10),total_goods_price number(11,2),total_tax_price number(11,2),total_price number(11,2),create_time timestamp,create_datestamp   number(24,0) ,payment_method   number(5,0) ,status   number(5,0) ,payment_time timestamp,payment_datestamp   number(24,0) ,address_id   number(24,0) ,name  varchar2(1000) ,phone  varchar2(1000) ,province  varchar2(1000) ,city  varchar2(1000) ,area  varchar2(1000) ,town  varchar2(1000) ,address  varchar2(1000) ,id_card_number  varchar2(1000) ,card_front_img  varchar2(1000) ,card_back_img  varchar2(1000) ,logistics_fare number(11,2),receipt_time timestamp,receipt_datestamp   number(24,0) ,receipt_remark  varchar2(1000) ,delivery  varchar2(1000) ,delivery_time timestamp,delivery_datestamp   number(24,0) ,source   number(5,0) ,shipping_method   number(5,0) ,comments_status   number(5,0) ,show_status   number(5,0) ,cancel_type   number(5,0) ,freight_id   number(24,0) ,logistics_company   number(24,0) ,logistics_name  varchar2(1000) ,logistics_number  varchar2(1000) ,kd100_back  clob ,remarks  varchar2(1000) ,delivery_type   number(5,0) ,deliverytime  varchar2(1000) ,delivery_time_id   number(24,0) ,saleroom_id   number(24,0) ,priceexplainvarchar2(1000) ,integral number(10,0),buy_message  varchar2(1000) ,order_type   number(5,0) ,delivery_remark  varchar2(1000) ,pay_tn  varchar2(1000) ,audit_status   number(5,0) ,audit_time timestamp,audit_timestamp   number(24,0) ,audit_remark  varchar2(1000) ,cancle_time timestamp,cancle_remark  varchar2(1000) ,is_complaint   number(5,0) ,promotion_type   number(5,0) ,billing   number(5,0) ,invoice_title  varchar2(1000) ,invoice_content  varchar2(1000) ,detailedlist   number(5,0) ,refund_id   number(24,0) ,refund_apply_time timestamp,refund_audit_time timestamp,refund_amount number(11,2),finish_time timestamp,finish_datestamp   number(24,0) ,jl_library_code  varchar2(1000) ,jl_retailcode  varchar2(1000) ,declare_msgvarchar2(1000) ,jl_companycode  varchar2(1000) ,jl_borrowbackid  varchar2(1000) ,declare_status   number(5,0) ,refund_push_status  number(32),card_no  varchar2(1000) ,transaction_time timestamp,refund_finish_time timestamp,has_jd_children   number(5,0) ,package_id   number(24,0) ,refund_welfare_amount number(11,2),welfare_des_amount number(11,2),designation_coin1_amount number(11,2),designation_coin2_amount number(11,2),refund_designation_coin1_amount number(11,2),refund_designation_coin2_amount number(11,2),wx_pay_amount number(11,2),welfare_rec_amount number(11,2),refund_welfare_des_amount number(11,2),refund_wx_amount number(11,2),refund_welfare_rec_amount number(11,2),canteen_card_amount number(11,2),refund_canteen_card_amount number(11,2),labour_union_amount number(11,2),refund_labour_union_amount number(11,2),festival_amount number(11,2),refund_festival_amount number(11,2),order_push_status  number(5,0) ,package_status   number(5,0) ,third_order_code  varchar2(1000) ,order_update_time timestamp,canteen_card_payment_time timestamp )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from tcdc_db.t_order  ) t1
+[ERROR] t_order_tcdc: ORA-00972: 标识符过长
+
+[INFO] ========== t_after_sales_order_detail_tcd ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_after_sales_order_detail_tcd ( id   number(24,0) ,after_sales_order_id   number(24,0) ,after_sales_type   number(5,0) ,after_sales_reason   number(5,0) ,designation_coin1   number(5,0) ,designation_coin2   number(5,0) ,description  varchar2(1000) ,img_list clob,goods_item_id   number(24,0) ,goods_name  varchar2(1000) ,goods_price number(11,2),goods_img  varchar2(1000) ,goods_count  number(10),total_count  number(10),total_amount number(11,2),promotion number(11,2),logistics_fare number(11,2),total_price number(11,2),refund_amount number(11,2),refund_actual_amount number(11,2),welfare_amount number(11,2),welfare_cat  number(5),refund_welfare_des_amount number(11,2),refund_designation_coin1_amount number(11,2),refund_designation_coin2_amount number(11,2),refund_welfare_rec_amount number(11,2),refund_welfare_amount number(11,2),refund_wx_amount number(11,2),refund_canteen_card_amount number(11,2),refund_labour_union_amount number(11,2),refund_festival_amount number(11,2),ticket_amount number(11,2),store_ticket_amount number(11,2),discount_amountnumber(11,2) )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from tcdc_db.t_after_sales_order_detail  ) t1
+[ERROR] t_after_sales_order_detail_tcd: ORA-00972: 标识符过长
+
+[INFO] ========== t_after_sales_order_detail_xzd ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_after_sales_order_detail_xzd ( id   number(24,0) ,after_sales_order_id   number(24,0) ,after_sales_type   number(5,0) ,after_sales_reason   number(5,0) ,designation_coin1   number(5,0) ,designation_coin2   number(5,0) ,description  varchar2(1000) ,img_list clob,goods_item_id   number(24,0) ,goods_name  varchar2(1000) ,goods_price number(11,2),goods_img  varchar2(1000) ,goods_count  number(10),total_count  number(10),total_amount number(11,2),promotion number(11,2),logistics_fare number(11,2),total_price number(11,2),refund_amount number(11,2),refund_actual_amount number(11,2),welfare_amount number(11,2),welfare_cat  number(5),refund_welfare_des_amount number(11,2),refund_designation_coin1_amount number(11,2),refund_designation_coin2_amount number(11,2),refund_welfare_rec_amount number(11,2),refund_welfare_amount number(11,2),refund_wx_amount number(11,2),refund_canteen_card_amount number(11,2),refund_labour_union_amount number(11,2),refund_festival_amount number(11,2),ticket_amount number(11,2),store_ticket_amount number(11,2) )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from xzdc_sc.t_after_sales_order_detail  ) t1
+[ERROR] t_after_sales_order_detail_xzd: ORA-00972: 标识符过长
+
+[INFO] ========== t_order_xzdc_sc ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_order_xzdc_sc ( id   number(24,0) ,user_id   number(24,0) ,store_id   number(24,0) ,order_code  varchar2(1000) ,parent_id   number(24,0) ,is_single number(5,0) ,designation_coin1   number(5,0) ,designation_coin2   number(5,0) ,goods_source   number(5,0) ,trade_code  varchar2(1000) ,total   number(24,0) ,total_weight   number(24,0) ,total_amount number(11,2),store_ticket_id   number(24,0) ,store_ticket_amount number(11,2),promotion_amount number(11,2),lh_id   number(24,0) ,lh_amount number(11,2),deduction_amount number(11,2),discount_amount number(11,2),welfare_amount number(11,2),welfare_cat  number(10),total_goods_price number(11,2),total_tax_price number(11,2),total_price number(11,2),create_time timestamp,create_datestamp   number(24,0) ,payment_method   number(5,0) ,status   number(5,0) ,payment_time timestamp,payment_datestamp   number(24,0) ,address_id   number(24,0) ,name  varchar2(1000) ,phone  varchar2(1000) ,province  varchar2(1000) ,city  varchar2(1000) ,area  varchar2(1000) ,town  varchar2(1000) ,address  varchar2(1000) ,id_card_number  varchar2(1000) ,card_front_img  varchar2(1000) ,card_back_img  varchar2(1000) ,logistics_fare number(11,2),receipt_time timestamp,receipt_datestamp   number(24,0) ,receipt_remark  varchar2(1000) ,delivery  varchar2(1000) ,delivery_time timestamp,delivery_datestamp   number(24,0) ,source   number(5,0) ,shipping_method   number(5,0) ,comments_status   number(5,0) ,show_status   number(5,0) ,cancel_type   number(5,0) ,freight_id   number(24,0) ,logistics_company   number(24,0) ,logistics_name  varchar2(1000) ,logistics_number  varchar2(1000) ,kd100_back  clob ,remarks  varchar2(1000) ,delivery_type   number(5,0) ,deliverytime  varchar2(1000) ,delivery_time_id   number(24,0) ,saleroom_id   number(24,0) ,priceexplain  varchar2(1000) ,integral number(10,0),buy_message  varchar2(1000) ,order_type   number(5,0) ,delivery_remark  varchar2(1000) ,pay_tn  varchar2(1000) ,audit_status   number(5,0) ,audit_time timestamp,audit_timestamp   number(24,0) ,audit_remark  varchar2(1000) ,cancle_time timestamp,cancle_remark  varchar2(1000) ,is_complaint   number(5,0) ,promotion_type   number(5,0) ,billing   number(5,0) ,invoice_title  varchar2(1000) ,invoice_content  varchar2(1000) ,detailedlist   number(5,0) ,refund_id   number(24,0) ,refund_apply_time timestamp,refund_audit_time timestamp,refund_amount number(11,2),finish_time timestamp,finish_datestamp   number(24,0) ,jl_library_code  varchar2(1000) ,jl_retailcode  varchar2(1000) ,declare_msg  varchar2(1000) ,jl_companycode  varchar2(1000) ,jl_borrowbackid  varchar2(1000) ,declare_status   number(5,0) ,refund_push_status  number(32),card_no  varchar2(1000) ,transaction_time timestamp,refund_finish_time timestamp,has_jd_children   number(5,0) ,package_id   number(24,0) ,refund_welfare_amount number(11,2),welfare_des_amount number(11,2),designation_coin1_amount number(11,2),designation_coin2_amount number(11,2),refund_designation_coin1_amount number(11,2),refund_designation_coin2_amount number(11,2),wx_pay_amount number(11,2),welfare_rec_amount number(11,2),refund_welfare_des_amount number(11,2),refund_wx_amount number(11,2),refund_welfare_rec_amount number(11,2),canteen_card_amount number(11,2),refund_canteen_card_amount number(11,2),labour_union_amount number(11,2),refund_labour_union_amount number(11,2),festival_amount number(11,2),refund_festival_amount number(11,2),order_push_status   number(5,0) ,package_status   number(5,0)  )
+[ERROR] java.sql.SQLSyntaxErrorException: ORA-00972: 标识符过长
+
+[INFO] (Select * from xzdc_sc.t_order  ) t1
+[ERROR] t_order_xzdc_sc: ORA-00972: 标识符过长
+
+[INFO] ========== t_ticket_active_xzdc_sc ==========
+[INFO] IsIncremental: false; Write Mode: overwrite .
+[INFO] TIME CLAUSE:
+[INFO] DDL: create table RX_DW.t_ticket_active_xzdc_sc ( id   number(24,0) ,store_id   number(24,0) ,lhq_name  varchar2(1000) ,lhq_num   number(24,0) ,using_num   number(24,0) ,using_range   number(5,0) ,get_start_time timestamp,get_start_timestamp   number(24,0) ,get_end_time timestamp,get_end_timestamp   number(24,0) ,lhq_start_time timestamp,lhq_start_timestamp   number(24,0) ,lhq_end_time timestamp,lhq_end_timestamp   number(24,0) ,lhq_type   number(5,0) ,condition1 number(11,2),condition2 number(11,2),is_public   number(5,0) ,is_luck number(5,0) ,public_ticket_code  varchar2(1000) ,send_type   number(5,0) ,rece_type   number(5,0) ,rece_url  varchar2(1000) ,user_type   number(5,0) ,user_grade  number(11),status number(5,0) ,remark  varchar2(1000) ,create_time timestamp,create_id   number(24,0) ,mod_time timestamp,mod_id   number(24,0) ,del_flag   number(5,0) ,del_id   number(24,0) ,mark  varchar2(1000)  )
+[INFO]Table Already Exist: create table RX_DW.t_ticket_active_xzdc_sc ( id   number(24,0) ,store_id   number(24,0) ,lhq_name  varchar2(1000) ,lhq_num   number(24,0) ,using_num   number(24,0) ,using_range   number(5,0) ,get_start_time timestamp,get_start_timestamp   number(24,0) ,get_end_time timestamp,get_end_timestamp   number(24,0) ,lhq_start_time timestamp,lhq_start_timestamp   number(24,0) ,lhq_end_time timestamp,lhq_end_timestamp   number(24,0) ,lhq_type   number(5,0) ,condition1 number(11,2),condition2 number(11,2),is_public   number(5,0) ,is_luck   number(5,0) ,public_ticket_code  varchar2(1000) ,send_type   number(5,0) ,rece_type   number(5,0) ,rece_url  varchar2(1000) ,user_type   number(5,0) ,user_grade  number(11),status   number(5,0) ,remark  varchar2(1000) ,create_time timestamp,create_id   number(24,0) ,mod_time timestamp,mod_id   number(24,0) ,del_flag   number(5,0) ,del_id   number(24,0) ,mark  varchar2(1000)  )
+[INFO] (Select * from xzdc_sc.t_ticket_active  ) t1
